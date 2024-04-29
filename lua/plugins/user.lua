@@ -1,85 +1,132 @@
-if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
-
--- You can also add or configure plugins by creating files in this `plugins/` folder
--- Here are some examples:
-
 ---@type LazySpec
 return {
 
-  -- == Examples of Adding Plugins ==
-
-  "andweeb/presence.nvim",
+  -- Directory traverse
+  { "nanotee/zoxide.vim" },
+  -- Diff directories (:DirDiff <dir1> <dir2>)
+  { "will133/vim-dirdiff" },
+  -- Tabularize
+  { "godlygeek/tabular" },
+  -- Fuzzy finder
+  { "junegunn/fzf" },
+  { "junegunn/fzf.vim" },
+  -- Git graph
+  { 'junegunn/gv.vim' },
+  -- GIT wrapper (`:G <any_git_command>`)
+  { "tpope/vim-fugitive" },
+  -- GIT manager in VIM. Awesome. (`:LazyGit`, or <Leader>gg)
+  { "kdheepak/lazygit.nvim" },
+  -- show git status on particular lines
+  { "mhinz/vim-signify" },
+  -- show Git Blame info inline virtual text
   {
-    "ray-x/lsp_signature.nvim",
+    "f-person/git-blame.nvim",
     event = "BufRead",
-    config = function() require("lsp_signature").setup() end,
+    config = function()
+      vim.cmd("highlight default link gitblame SpecialComment")
+      vim.g.gitblame_enabled = 0
+    end,
   },
-
-  -- == Examples of Overriding Plugins ==
+  -- goto Preview
+  {
+    "rmagatti/goto-preview", -- Edit preview in a floating windows. (`gpd`)
+    config = function()
+    require('goto-preview').setup {
+          width = 120; -- Width of the floating window
+          height = 25; -- Height of the floating window
+          default_mappings = true; -- Bind default mappings
+          debug = false; -- Print debug information
+          opacity = nil; -- 0-100 opacity level of the floating window where 100 is fully transparent.
+          post_open_hook = nil; -- A function taking two arguments, a buffer and a window to be ran as a hook.
+          -- You can use "default_mappings = true" setup option
+          -- Or explicitly set keybindings
+          -- vim.cmd("nnoremap gpd <cmd>lua require('goto-preview').goto_preview_definition()<CR>")
+          -- vim.cmd("nnoremap gpi <cmd>lua require('goto-preview').goto_preview_implementation()<CR>")
+          -- vim.cmd("nnoremap gP <cmd>lua require('goto-preview').close_all_win()<CR>")
+      }
+    end
+  },
+  -- Underline cursor under the word
+  {
+    "itchyny/vim-cursorword",
+      event = {"BufEnter", "BufNewFile"},
+      config = function()
+        vim.api.nvim_command("augroup user_plugin_cursorword")
+        vim.api.nvim_command("autocmd!")
+        vim.api.nvim_command("autocmd FileType NvimTree,lspsagafinder,dashboard,vista let b:cursorword = 0")
+        vim.api.nvim_command("autocmd WinEnter * if &diff || &pvw | let b:cursorword = 0 | endif")
+        vim.api.nvim_command("autocmd InsertEnter * let b:cursorword = 0")
+        vim.api.nvim_command("autocmd InsertLeave * let b:cursorword = 1")
+        vim.api.nvim_command("augroup END")
+        end
+  },
+  -- Auto save
+  {
+    "Pocco81/auto-save.nvim",
+    config = function()
+       require("auto-save").setup {
+        -- your config goes here
+       }
+    end,
+  },
+  -- Convenient word surrounding
+  { "tpope/vim-surround" },
+  -- Remove trailing whitespace
+  { "ntpeters/vim-better-whitespace" },
+  -- Running commands in TMUX split
+  { "preservim/vimux" },
+  -- Seamless TMUX panes Navigation
+  { "christoomey/vim-tmux-navigator" },
+  -- HELM support
+  { "towolf/vim-helm" },
+  -- Zoxide support
+  { "jvgrootveld/telescope-zoxide" },
+  -- Better quickfix window
+  {'kevinhwang91/nvim-bqf', ft = 'qf'},
+  -- Spectre search and replace (:Spectre)
+  { 'nvim-pack/nvim-spectre' },
+  -- Fallback search and replace (:Ack or <leader>a for search, :Acks or <leader>r to substitute)
+  { "wincent/ferret" },
+  -- Improve local search and replace
+  { "roobert/search-replace.nvim",
+    config = function()
+      require("search-replace").setup({
+        -- optionally override defaults
+        -- default_replace_single_buffer_options = "gcI",
+        -- default_replace_multi_buffer_options = "egcI",
+      })
+    end,
+  },
+  -- Cool colorscheme :)
+  -- { "catppuccin/nvim", name = "catppuccin" },
+  -- Motions on steroids
+  {
+    "ggandor/leap.nvim",
+    name = "leap",
+    config = function()
+      require("leap").add_default_mappings()
+    end,
+  },
 
   -- customize alpha options
-  {
-    "goolord/alpha-nvim",
-    opts = function(_, opts)
-      -- customize the dashboard header
-      opts.section.header.val = {
-        " █████  ███████ ████████ ██████   ██████",
-        "██   ██ ██         ██    ██   ██ ██    ██",
-        "███████ ███████    ██    ██████  ██    ██",
-        "██   ██      ██    ██    ██   ██ ██    ██",
-        "██   ██ ███████    ██    ██   ██  ██████",
-        " ",
-        "    ███    ██ ██    ██ ██ ███    ███",
-        "    ████   ██ ██    ██ ██ ████  ████",
-        "    ██ ██  ██ ██    ██ ██ ██ ████ ██",
-        "    ██  ██ ██  ██  ██  ██ ██  ██  ██",
-        "    ██   ████   ████   ██ ██      ██",
-      }
-      return opts
-    end,
-  },
-
-  -- You can disable default plugins as follows:
-  { "max397574/better-escape.nvim", enabled = false },
-
-  -- You can also easily customize additional setup of plugins that is outside of the plugin's setup call
-  {
-    "L3MON4D3/LuaSnip",
-    config = function(plugin, opts)
-      require "astronvim.plugins.configs.luasnip"(plugin, opts) -- include the default astronvim config that calls the setup call
-      -- add more custom luasnip configuration such as filetype extend or custom snippets
-      local luasnip = require "luasnip"
-      luasnip.filetype_extend("javascript", { "javascriptreact" })
-    end,
-  },
-
-  {
-    "windwp/nvim-autopairs",
-    config = function(plugin, opts)
-      require "astronvim.plugins.configs.nvim-autopairs"(plugin, opts) -- include the default astronvim config that calls the setup call
-      -- add more custom autopairs configuration such as custom rules
-      local npairs = require "nvim-autopairs"
-      local Rule = require "nvim-autopairs.rule"
-      local cond = require "nvim-autopairs.conds"
-      npairs.add_rules(
-        {
-          Rule("$", "$", { "tex", "latex" })
-            -- don't add a pair if the next character is %
-            :with_pair(cond.not_after_regex "%%")
-            -- don't add a pair if  the previous character is xxx
-            :with_pair(
-              cond.not_before_regex("xxx", 3)
-            )
-            -- don't move right when repeat character
-            :with_move(cond.none())
-            -- don't delete if the next character is xx
-            :with_del(cond.not_after_regex "xx")
-            -- disable adding a newline when you press <cr>
-            :with_cr(cond.none()),
-        },
-        -- disable for .vim files, but it work for another filetypes
-        Rule("a", "a", "-vim")
-      )
-    end,
-  },
+  -- {
+  --   "goolord/alpha-nvim",
+  --   opts = function(_, opts)
+  --     -- customize the dashboard header
+  --     opts.section.header.val = {
+  --       " █████  ███████ ████████ ██████   ██████",
+  --       "██   ██ ██         ██    ██   ██ ██    ██",
+  --       "███████ ███████    ██    ██████  ██    ██",
+  --       "██   ██      ██    ██    ██   ██ ██    ██",
+  --       "██   ██ ███████    ██    ██   ██  ██████",
+  --       " ",
+  --       "    ███    ██ ██    ██ ██ ███    ███",
+  --       "    ████   ██ ██    ██ ██ ████  ████",
+  --       "    ██ ██  ██ ██    ██ ██ ██ ████ ██",
+  --       "    ██  ██ ██  ██  ██  ██ ██  ██  ██",
+  --       "    ██   ████   ████   ██ ██      ██",
+  --     }
+  --     return opts
+  --   end,
+  -- },
 }
