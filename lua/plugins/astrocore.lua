@@ -33,5 +33,45 @@ return {
     rooter = {
       autochdir = true,
     },
+    -- autocmds = {
+    --   lsp_attach_azurepipelines = {
+    --     {
+    --       event = { "BufRead" },
+    --       desc = "Attach Azure Pipelines LS when in .azuredevops directory",
+    --       pattern = "*/.azuredevops/*.yaml",
+    --       callback = function()
+    --         require("lspconfig").azure_pipelines_ls.setup {
+    --           settings = {
+    --             yaml = {
+    --               schemas = {
+    --                 ["https://raw.githubusercontent.com/microsoft/azure-pipelines-vscode/master/service-schema.json"] = {
+    --                   "*/.azuredevops/**/*.y*ml",
+    --                 },
+    --               },
+    --             },
+    --           },
+    --         }
+    --         -- require("lspconfig").yamlls.setup {
+    --         --   settings = {
+    --         --     yaml = {
+    --         --       schemaStore = {
+    --         --         -- You must disable built-in schemaStore support if you want to use
+    --         --         -- this plugin and its advanced options like `ignore`.
+    --         --         enable = false,
+    --         --         -- Avoid TypeError: Cannot read properties of undefined (reading 'length')
+    --         --         url = "",
+    --         --       },
+    --         --       schemas = require("schemastore").yaml.schemas {
+    --         --         select = {
+    --         --           "Azure Pipelines",
+    --         --         },
+    --         --       },
+    --         --     },
+    --         --   },
+    --         -- }
+    --       end,
+    --     },
+    --   },
+    -- },
   },
 }
