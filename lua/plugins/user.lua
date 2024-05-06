@@ -1,8 +1,5 @@
 ---@type LazySpec
 return {
-  -- -- Tabularize
-  -- { "godlygeek/tabular" },
-
   -- Directory traverse
   { "nanotee/zoxide.vim" },
   -- Diff directories (:DirDiff <dir1> <dir2>)
@@ -51,8 +48,6 @@ return {
       vim.api.nvim_command "augroup END"
     end,
   },
-  -- Remove trailing whitespace
-  -- { "ntpeters/vim-better-whitespace" },
   -- Running commands in TMUX split
   { "preservim/vimux" },
   -- Seamless TMUX panes Navigation
@@ -96,4 +91,6 @@ return {
   --     return opts
   --   end,
   -- },
+  -- -- Tabularize
+  -- { "godlygeek/tabular" },
 }

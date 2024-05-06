@@ -32,6 +32,6 @@ return {
     },
     rooter = {
       autochdir = true,
-    }
+    },
   },
 }
