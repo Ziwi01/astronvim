@@ -4,6 +4,8 @@ return {
   { "nanotee/zoxide.vim" },
   -- Diff directories (:DirDiff <dir1> <dir2>)
   { "will133/vim-dirdiff" },
+  -- Markdown support
+  { "SidOfc/mkdx" },
   -- Fuzzy finder
   { "junegunn/fzf" },
   { "junegunn/fzf.vim" },
