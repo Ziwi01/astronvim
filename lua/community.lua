@@ -17,7 +17,7 @@ return {
   { import = "astrocommunity.pack.ruby" },
   { import = "astrocommunity.pack.terraform" },
   { import = "astrocommunity.pack.yaml" },
-  { import = "astrocommunity.project.nvim-spectre" },
+  { import = "astrocommunity.search.nvim-spectre" },
   { import = "astrocommunity.indent.indent-blankline-nvim" },
   { import = "astrocommunity.indent.mini-indentscope" },
   { import = "astrocommunity.editing-support.multiple-cursors-nvim" },
