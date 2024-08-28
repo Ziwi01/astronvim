@@ -15,6 +15,7 @@ return {
   { import = "astrocommunity.pack.markdown" },
   { import = "astrocommunity.pack.python" },
   { import = "astrocommunity.pack.ruby" },
+  { import = "astrocommunity.pack.json" },
   { import = "astrocommunity.pack.terraform" },
   { import = "astrocommunity.pack.yaml" },
   { import = "astrocommunity.search.nvim-spectre" },
