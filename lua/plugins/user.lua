@@ -4,6 +4,7 @@ return {
   { "nanotee/zoxide.vim" },
   -- Diff directories (:DirDiff <dir1> <dir2>)
   { "will133/vim-dirdiff" },
+  { "will133/vim-dirdiff" },
   -- Markdown support
   { "SidOfc/mkdx" },
   {
@@ -31,6 +32,8 @@ return {
   { "kdheepak/lazygit.nvim" },
   -- show git status on particular lines
   { "mhinz/vim-signify" },
+  -- Trim trailing whitespace
+  { "ntpeters/vim-better-whitespace" },
   -- goto Preview
   {
     "rmagatti/goto-preview", -- Edit preview in a floating windows. (`gpd`)
@@ -50,28 +53,22 @@ return {
       }
     end,
   },
-  -- Underline cursor under the word
-  {
-    "itchyny/vim-cursorword",
-    event = { "BufEnter", "BufNewFile" },
-    config = function()
-      vim.api.nvim_command "augroup user_plugin_cursorword"
-      vim.api.nvim_command "autocmd!"
-      vim.api.nvim_command "autocmd FileType NvimTree,lspsagafinder,dashboard,vista let b:cursorword = 0"
-      vim.api.nvim_command "autocmd WinEnter * if &diff || &pvw | let b:cursorword = 0 | endif"
-      vim.api.nvim_command "autocmd InsertEnter * let b:cursorword = 0"
-      vim.api.nvim_command "autocmd InsertLeave * let b:cursorword = 1"
-      vim.api.nvim_command "augroup END"
-    end,
-  },
+  -- -- Underline cursor under the word
+  -- {
+  --   "itchyny/vim-cursorword",
+  --   event = { "BufEnter", "BufNewFile" },
+  --   config = function()
+  --     vim.api.nvim_command "augroup user_plugin_cursorword"
+  --     vim.api.nvim_command "autocmd!"
+  --     vim.api.nvim_command "autocmd FileType NvimTree,lspsagafinder,dashboard,vista let b:cursorword = 0"
+  --     vim.api.nvim_command "autocmd WinEnter * if &diff || &pvw | let b:cursorword = 0 | endif"
+  --     vim.api.nvim_command "autocmd InsertEnter * let b:cursorword = 0"
+  --     vim.api.nvim_command "autocmd InsertLeave * let b:cursorword = 1"
+  --     vim.api.nvim_command "augroup END"
+  --   end,
+  -- },
   -- Running commands in TMUX split
   { "preservim/vimux" },
-  -- Seamless TMUX panes Navigation
-  { "christoomey/vim-tmux-navigator" },
-  -- HELM support
-  { "towolf/vim-helm" },
-  -- Better quickfix window
-  { "kevinhwang91/nvim-bqf", ft = "qf" },
   -- Fallback search and replace (:Ack or <leader>a for search, :Acks or <leader>r to substitute)
   { "wincent/ferret" },
   -- Improve local search and replace
@@ -85,46 +82,4 @@ return {
       }
     end,
   },
-  -- Additional Lua plugins
-  {
-    "folke/lazydev.nvim",
-    ft = "lua", -- only load on lua files
-    opts = {
-      library = {
-        -- See the configuration section for more details
-        -- Load luvit types when the `vim.uv` word is found
-        { path = "luvit-meta/library", words = { "vim%.uv" } },
-      },
-    },
-  },
-  { "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
-  {
-    "vhyrro/luarocks.nvim",
-    priority = 1000, -- Very high priority is required, luarocks.nvim should run as the first plugin in your config.
-    config = true,
-  },
-
-  -- customize alpha options
-  -- {
-  --   "goolord/alpha-nvim",
-  --   opts = function(_, opts)
-  --     -- customize the dashboard header
-  --     opts.section.header.val = {
-  --       " █████  ███████ ████████ ██████   ██████",
-  --       "██   ██ ██         ██    ██   ██ ██    ██",
-  --       "███████ ███████    ██    ██████  ██    ██",
-  --       "██   ██      ██    ██    ██   ██ ██    ██",
-  --       "██   ██ ███████    ██    ██   ██  ██████",
-  --       " ",
-  --       "    ███    ██ ██    ██ ██ ███    ███",
-  --       "    ████   ██ ██    ██ ██ ████  ████",
-  --       "    ██ ██  ██ ██    ██ ██ ██ ████ ██",
-  --       "    ██  ██ ██  ██  ██  ██ ██  ██  ██",
-  --       "    ██   ████   ████   ██ ██      ██",
-  --     }
-  --     return opts
-  --   end,
-  -- },
-  -- -- Tabularize
-  -- { "godlygeek/tabular" },
 }
