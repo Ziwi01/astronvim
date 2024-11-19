@@ -1,26 +1,9 @@
 ---@type LazySpec
 return {
-  -- Directory traverse
-  { "nanotee/zoxide.vim" },
   -- Diff directories (:DirDiff <dir1> <dir2>)
-  { "will133/vim-dirdiff" },
   { "will133/vim-dirdiff" },
   -- Markdown support
   { "SidOfc/mkdx" },
-  {
-    "OXY2DEV/markview.nvim",
-    lazy = false, -- Recommended
-    -- ft = "markdown" -- If you decide to lazy-load anyway
-
-    dependencies = {
-      -- You will not need this if you installed the
-      -- parsers manually
-      -- Or if the parsers are in your $RUNTIMEPATH
-      "nvim-treesitter/nvim-treesitter",
-
-      "nvim-tree/nvim-web-devicons",
-    },
-  },
   -- Fuzzy finder
   { "junegunn/fzf" },
   { "junegunn/fzf.vim" },
@@ -33,7 +16,7 @@ return {
   -- show git status on particular lines
   { "mhinz/vim-signify" },
   -- Trim trailing whitespace
-  { "ntpeters/vim-better-whitespace" },
+  -- { "ntpeters/vim-better-whitespace" },
   -- goto Preview
   {
     "rmagatti/goto-preview", -- Edit preview in a floating windows. (`gpd`)
@@ -53,20 +36,6 @@ return {
       }
     end,
   },
-  -- -- Underline cursor under the word
-  -- {
-  --   "itchyny/vim-cursorword",
-  --   event = { "BufEnter", "BufNewFile" },
-  --   config = function()
-  --     vim.api.nvim_command "augroup user_plugin_cursorword"
-  --     vim.api.nvim_command "autocmd!"
-  --     vim.api.nvim_command "autocmd FileType NvimTree,lspsagafinder,dashboard,vista let b:cursorword = 0"
-  --     vim.api.nvim_command "autocmd WinEnter * if &diff || &pvw | let b:cursorword = 0 | endif"
-  --     vim.api.nvim_command "autocmd InsertEnter * let b:cursorword = 0"
-  --     vim.api.nvim_command "autocmd InsertLeave * let b:cursorword = 1"
-  --     vim.api.nvim_command "augroup END"
-  --   end,
-  -- },
   -- Running commands in TMUX split
   { "preservim/vimux" },
   -- Fallback search and replace (:Ack or <leader>a for search, :Acks or <leader>r to substitute)
