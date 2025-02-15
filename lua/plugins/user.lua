@@ -1,5 +1,7 @@
 ---@type LazySpec
 return {
+  -- Vim Table mode
+  { "dhruvasagar/vim-table-mode" },
   -- Diff directories (:DirDiff <dir1> <dir2>)
   { "will133/vim-dirdiff" },
   -- Markdown support
