@@ -19,6 +19,11 @@ return {
   { "mhinz/vim-signify" },
   -- Trim trailing whitespace
   -- { "ntpeters/vim-better-whitespace" },
+  {
+    "ray-x/lsp_signature.nvim",
+    event = "BufRead",
+    config = function() require("lsp_signature").setup() end,
+  },
   -- goto Preview
   {
     "rmagatti/goto-preview", -- Edit preview in a floating windows. (`gpd`)
