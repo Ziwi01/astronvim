@@ -51,6 +51,7 @@ return {
         ["<Leader>gitn"] = { "<cmd>GHNextThread<cr>", desc = "GH Thread Next" },
         ["<Leader>gitt"] = { "<cmd>GHToggleThread<cr>", desc = "GH Thread Toggle" },
         ["<Leader>gil"] = { "<cmd>LTPanel<cr>", desc = "GH Toggle Panel" },
+        ["<Leader>z"] = { "<cmd>Telescope zoxide list<cr>", desc = "Zoxide" },
       },
       v = {
         ["p"] = { '"_dP', desc = "Paste without copy" },
