@@ -47,6 +47,9 @@ return {
     },
     rooter = {
       autochdir = true,
+      ignore = {
+        servers = { "copilot" },
+      },
     },
     -- autocmds = {
     --   lsp_attach_azurepipelines = {
