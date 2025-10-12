@@ -1,13 +1,13 @@
 return {
   {
-    require("telescope").setup {
-      -- (other Telescope configuration...)
+    "jvgrootveld/telescope-zoxide",
+    opts = {
       extensions = {
         zoxide = {
           prompt_title = "[ Zoxide find files ]",
           mappings = {
             default = {
-              after_action = function() vim.cmd("Neotree") end,
+              after_action = function() vim.cmd "Neotree" end,
             },
           },
         },
