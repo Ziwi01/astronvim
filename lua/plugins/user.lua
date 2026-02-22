@@ -1,5 +1,15 @@
 ---@type LazySpec
 return {
+  -- Enable Copilot suggestions for YAML and Ansible filetypes
+  {
+    "zbirenbaum/copilot.lua",
+    opts = {
+      filetypes = {
+        yaml = true,
+        ["yaml.ansible"] = true,
+      },
+    },
+  },
   -- Vim Table mode
   { "dhruvasagar/vim-table-mode" },
   -- Diff directories (:DirDiff <dir1> <dir2>)
