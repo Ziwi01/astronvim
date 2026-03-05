@@ -6,7 +6,7 @@ return {
         visible = true,
         -- hide_dotfiles = false,
       }
-      opts.window["auto_expand_width"] = true
+      opts.window["auto_expand_width"] = false
     end,
   }
 }

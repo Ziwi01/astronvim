@@ -1,5 +1,6 @@
 ---@type LazySpec
 return {
+  { "bullets-vim/bullets.vim" },
   -- Enable Copilot suggestions for YAML and Ansible filetypes
   {
     "zbirenbaum/copilot.lua",
@@ -28,7 +29,30 @@ return {
   -- show git status on particular lines
   { "mhinz/vim-signify" },
   -- Trim trailing whitespace
-  -- { "ntpeters/vim-better-whitespace" },
+  {
+    "ntpeters/vim-better-whitespace",
+    event = { "BufReadPre", "BufNewFile" },
+    init = function()
+      vim.g.better_whitespace_filetypes_blacklist = {
+        "diff",
+        "git",
+        "gitcommit",
+        "unite",
+        "qf",
+        "help",
+        "markdown",
+        "fugitive",
+        "snacks_dashboard",
+        "snacks_notif",
+        "snacks_terminal",
+        "snacks_win",
+        "alpha",
+        "lazy",
+        "mason",
+        "neo-tree",
+      }
+    end,
+  },
   {
     "ray-x/lsp_signature.nvim",
     event = "BufRead",
@@ -57,15 +81,4 @@ return {
   { "preservim/vimux" },
   -- Fallback search and replace (:Ack or <leader>a for search, :Acks or <leader>r to substitute)
   { "wincent/ferret" },
-  -- Improve local search and replace
-  {
-    "roobert/search-replace.nvim",
-    config = function()
-      require("search-replace").setup {
-        -- optionally override defaults
-        -- default_replace_single_buffer_options = "gcI",
-        -- default_replace_multi_buffer_options = "egcI",
-      }
-    end,
-  },
 }

@@ -63,6 +63,12 @@ return { -- override blink.cmp plugin
     sources = {
       default = { "copilot", "lsp", "path", "snippets", "buffer" },
       providers = {
+        emoji = {
+          score_offset = 50,
+        },
+        git = {
+          score_offset = 10,
+        },
         copilot = {
           name = "copilot",
           module = "blink-copilot",
