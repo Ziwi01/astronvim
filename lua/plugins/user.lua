@@ -1,20 +1,5 @@
 ---@type LazySpec
 return {
-  -- {
-  --   "nickvandyke/opencode.nvim",
-  --   dependencies = {
-  --     {
-  --       "e-cal/opencode-tmux.nvim",
-  --       opts = {
-  --         options = "-h -l 35%",
-  --         focus = false,
-  --         auto_close = false,
-  --         allow_passthrough = true,
-  --         find_sibling = true,
-  --       },
-  --     },
-  --   },
-  -- },
   { "bullets-vim/bullets.vim" },
   -- Enable Copilot suggestions for YAML and Ansible filetypes
   {
