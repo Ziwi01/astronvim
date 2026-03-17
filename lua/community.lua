@@ -5,6 +5,7 @@
 ---@type LazySpec
 return {
   "AstroNvim/astrocommunity",
+  { import = "astrocommunity.ai.opencode-nvim" },
   { import = "astrocommunity.bars-and-lines.vim-illuminate" },
   { import = "astrocommunity.colorscheme.nightfox-nvim" },
   { import = "astrocommunity.color.transparent-nvim" },
@@ -28,6 +29,7 @@ return {
   { import = "astrocommunity.git.blame-nvim" },
   { import = "astrocommunity.git.diffview-nvim" },
   { import = "astrocommunity.git.openingh-nvim" },
+  { import = "astrocommunity.git.codediff-nvim" },
   { import = "astrocommunity.indent.indent-blankline-nvim" },
   { import = "astrocommunity.indent.mini-indentscope" },
   { import = "astrocommunity.icon.mini-icons" },

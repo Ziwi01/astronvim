@@ -1,5 +1,20 @@
 ---@type LazySpec
 return {
+  -- {
+  --   "nickvandyke/opencode.nvim",
+  --   dependencies = {
+  --     {
+  --       "e-cal/opencode-tmux.nvim",
+  --       opts = {
+  --         options = "-h -l 35%",
+  --         focus = false,
+  --         auto_close = false,
+  --         allow_passthrough = true,
+  --         find_sibling = true,
+  --       },
+  --     },
+  --   },
+  -- },
   { "bullets-vim/bullets.vim" },
   -- Enable Copilot suggestions for YAML and Ansible filetypes
   {
@@ -17,6 +32,11 @@ return {
   { "will133/vim-dirdiff" },
   -- Markdown support
   { "SidOfc/mkdx" },
+  {
+    "yousefhadder/markdown-plus.nvim",
+    ft = "markdown",
+    opts = {},
+  },
   -- Fuzzy finder
   { "junegunn/fzf" },
   { "junegunn/fzf.vim" },
