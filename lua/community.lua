@@ -23,7 +23,7 @@ return {
   { import = "astrocommunity.editing-support.vim-move" },
   { import = "astrocommunity.editing-support.treesj" },
   { import = "astrocommunity.editing-support.conform-nvim" },
-  { import = "astrocommunity.editing-support.codecompanion-nvim" },
+  { import = "astrocommunity.ai.codecompanion-nvim" },
   { import = "astrocommunity.fuzzy-finder.telescope-zoxide" },
   -- { import = "astrocommunity.git.git-blame-nvim" },
   { import = "astrocommunity.git.blame-nvim" },
