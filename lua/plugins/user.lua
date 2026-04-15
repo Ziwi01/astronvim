@@ -1,6 +1,7 @@
 ---@type LazySpec
 return {
-  { "bullets-vim/bullets.vim" },
+  { "rickhowe/diffchar.vim" }, -- VSCode-style precise diff highlights
+  { "bullets-vim/bullets.vim" }, -- better lists/bullets
   -- Enable Copilot suggestions for YAML and Ansible filetypes
   {
     "zbirenbaum/copilot.lua",

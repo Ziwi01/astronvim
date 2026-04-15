@@ -27,7 +27,6 @@ return {
   { import = "astrocommunity.fuzzy-finder.telescope-zoxide" },
   -- { import = "astrocommunity.git.git-blame-nvim" },
   { import = "astrocommunity.git.blame-nvim" },
-  { import = "astrocommunity.git.diffview-nvim" },
   { import = "astrocommunity.git.openingh-nvim" },
   { import = "astrocommunity.git.codediff-nvim" },
   { import = "astrocommunity.indent.indent-blankline-nvim" },
