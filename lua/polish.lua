@@ -37,6 +37,24 @@ vim.api.nvim_create_autocmd("BufRead", {
   command = "set ft=groovy",
 })
 
+-- Use win32yank for the system clipboard on WSL (fixes OSC 52 leak from
+-- TUI apps like opencode running inside the built-in :terminal, and ensures
+-- copies land on the Windows clipboard instead of a non-existent X11 one).
+if vim.fn.executable "win32yank.exe" == 1 then
+  vim.g.clipboard = {
+    name = "win32yank",
+    copy = {
+      ["+"] = "win32yank.exe -i --crlf",
+      ["*"] = "win32yank.exe -i --crlf",
+    },
+    paste = {
+      ["+"] = "win32yank.exe -o --lf",
+      ["*"] = "win32yank.exe -o --lf",
+    },
+    cache_enabled = 0,
+  }
+end
+
 local opencode_cmd = "opencode --port"
 ---@type snacks.terminal.Opts
 local snacks_terminal_opts = {
