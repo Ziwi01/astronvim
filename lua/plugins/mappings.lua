@@ -52,6 +52,12 @@ return {
         ["<Leader>gitt"] = { "<cmd>GHToggleThread<cr>", desc = "GH Thread Toggle" },
         ["<Leader>gil"] = { "<cmd>LTPanel<cr>", desc = "GH Toggle Panel" },
         ["<Leader>z"] = { "<cmd>Telescope zoxide list<cr>", desc = "Zoxide" },
+        -- Append @buffer to the prompt window instead of submitting immediately.
+        -- opencode.nvim submits unless the prompt ends with a trailing space.
+        ["<Leader>O+"] = {
+          function() require("opencode").prompt "@buffer " end,
+          desc = "Add buffer to prompt",
+        },
       },
       v = {
         ["p"] = { '"_dP', desc = "Paste without copy" },
