@@ -37,9 +37,9 @@ vim.api.nvim_create_autocmd("BufRead", {
   command = "set ft=groovy",
 })
 
--- Use win32yank for the system clipboard on WSL (fixes OSC 52 leak from
--- TUI apps like opencode running inside the built-in :terminal, and ensures
--- copies land on the Windows clipboard instead of a non-existent X11 one).
+-- Use win32yank for the system clipboard on WSL so Neovim's own yanks and any
+-- OSC 52 consumed from :terminal children land on the Windows clipboard
+-- (instead of a non-existent X11 clipboard via the auto-detected xclip).
 if vim.fn.executable "win32yank.exe" == 1 then
   vim.g.clipboard = {
     name = "win32yank",
@@ -55,7 +55,12 @@ if vim.fn.executable "win32yank.exe" == 1 then
   }
 end
 
-local opencode_cmd = "opencode --port"
+-- Clear $TMUX/$TMUX_PANE so opencode does not think it is running directly
+-- inside tmux. Otherwise it wraps its OSC 52 clipboard copies in a tmux
+-- passthrough DCS, which Neovim's :terminal cannot decode and renders as
+-- garbage "52;c;<base64>" text. Without $TMUX, opencode emits a plain OSC 52
+-- that Neovim consumes correctly via the win32yank clipboard provider above.
+local opencode_cmd = "env -u TMUX -u TMUX_PANE opencode --port"
 ---@type snacks.terminal.Opts
 local snacks_terminal_opts = {
   win = {
