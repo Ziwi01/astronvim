@@ -2,6 +2,24 @@
 return {
   { "rickhowe/diffchar.vim" }, -- VSCode-style precise diff highlights
   { "bullets-vim/bullets.vim" }, -- better lists/bullets
+  -- Fix: ansible-vim's ftdetect sets `ft=ansible` on Neovim, but ansiblels
+  -- expects `yaml.ansible` (and yamlls expects `yaml`), so neither attaches.
+  -- Remap the stray `ansible` filetype back to `yaml.ansible`.
+  {
+    "AstroNvim/astrocore",
+    opts = {
+      autocmds = {
+        ansible_filetype_fix = {
+          {
+            event = "FileType",
+            pattern = "ansible",
+            desc = "Map ansible-vim's plain 'ansible' ft to yaml.ansible so ansiblels/yamlls attach",
+            callback = function(ev) vim.bo[ev.buf].filetype = "yaml.ansible" end,
+          },
+        },
+      },
+    },
+  },
   -- Enable Copilot suggestions for YAML and Ansible filetypes
   {
     "zbirenbaum/copilot.lua",
