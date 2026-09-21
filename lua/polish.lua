@@ -63,6 +63,21 @@ local function opencode_bin()
   return bin ~= "" and bin or "opencode"
 end
 
+-- Directory Neovim was launched from, captured now (during startup, before the
+-- rooter's `autochdir` can move the cwd). Used only as a safety fallback below.
+local launch_cwd = vim.fn.getcwd()
+
+-- Working directory to root a new OpenCode server at: follow the current project
+-- (Neovim's cwd, kept per-project by the rooter) so spawning OpenCode in a
+-- different repo during the same session roots it there. Fall back to the launch
+-- directory only if the cwd is $HOME, so a stray non-repo file never drops
+-- OpenCode into your entire home directory.
+local function opencode_cwd()
+  local cwd = vim.fn.getcwd()
+  if vim.fs.normalize(cwd) == vim.fs.normalize(assert(vim.uv.os_homedir())) then return launch_cwd end
+  return cwd
+end
+
 ---List every tmux pane running opencode (across all windows/sessions).
 ---@return { pane: string, win: string }[]
 local function opencode_panes()
@@ -89,14 +104,16 @@ local function open_opencode_server()
   -- needs $TMUX/$TMUX_PANE stripped to avoid broken OSC 52 clipboard sequences.
   if vim.env.TMUX == nil then
     require("snacks.terminal").open("env -u TMUX -u TMUX_PANE " .. cmd, {
+      cwd = opencode_cwd(),
       win = { position = "right", enter = false },
     })
     return
   end
-  -- Open opencode in a horizontal tmux split, rooted at Neovim's CWD. `-d` keeps
-  -- focus in Neovim. No "already running?" guard: the plugin only calls this when
-  -- it found no cwd-matching server, and the mapping wants a fresh instance.
-  vim.fn.system { "tmux", "split-window", "-h", "-l", "40%", "-d", "-c", vim.fn.getcwd(), cmd }
+  -- Open opencode in a horizontal tmux split, rooted at the current project (or
+  -- the launch dir if that would be $HOME). `-d` keeps focus in Neovim. No
+  -- "already running?" guard: the plugin only calls this when it found no
+  -- cwd-matching server, and the mapping wants a fresh instance.
+  vim.fn.system { "tmux", "split-window", "-h", "-l", "40%", "-d", "-c", opencode_cwd(), cmd }
 end
 
 ---Toggle the opencode pane's visibility WITHOUT killing the server (the same
@@ -107,6 +124,7 @@ end
 local function opencode_toggle()
   if vim.env.TMUX == nil then
     require("snacks.terminal").toggle("env -u TMUX -u TMUX_PANE " .. opencode_bin() .. " --port", {
+      cwd = opencode_cwd(),
       win = { position = "right", enter = false },
     })
     return
