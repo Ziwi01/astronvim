@@ -1,3 +1,26 @@
+-- Open lazygit (toggleterm float) rooted at the current file's git repository.
+-- AstroNvim's stock <Leader>gg caches a single lazygit terminal and freezes its
+-- cwd at first open, so after cd-ing into another repo it reopens the wrong one.
+-- When the current file is inside a repo we pass `-p <root>`, which targets the
+-- correct repo AND makes the terminal cache key unique per repo. When it is NOT
+-- in a repo we run plain `lazygit` (no `-p`, which would force a non-existent
+-- `<dir>/.git/` and make lazygit exit immediately), so it shows its normal
+-- "Not in a git repository" prompt. Either way we keep toggleterm's bordered UI.
+local function lazygit_here()
+  local buf_name = vim.api.nvim_buf_get_name(0)
+  -- Prefer the current file's directory, but only for real file buffers. For
+  -- neo-tree / terminal / dashboard / unnamed buffers, fall back to the working
+  -- directory, which neo-tree's "set root" (`.`) and the rooter keep pointed at
+  -- the current project -- so `<Leader>gg` works even with no file open.
+  local start = (vim.bo.buftype == "" and buf_name ~= "") and vim.fs.dirname(buf_name) or vim.fn.getcwd()
+  local root = vim.fs.root(start, ".git")
+  require("astrocore").toggle_term_cmd {
+    cmd = root and ("lazygit -p " .. vim.fn.shellescape(root)) or "lazygit",
+    dir = root or start,
+    direction = "float",
+  }
+end
+
 return {
   "AstroNvim/astrocore",
   ---@type AstroCoreOpts
@@ -52,6 +75,11 @@ return {
         ["<Leader>gitt"] = { "<cmd>GHToggleThread<cr>", desc = "GH Thread Toggle" },
         ["<Leader>gil"] = { "<cmd>LTPanel<cr>", desc = "GH Toggle Panel" },
         ["<Leader>z"] = { "<cmd>Telescope zoxide list<cr>", desc = "Zoxide" },
+        -- Open lazygit in the current file's repo (see `lazygit_here` above):
+        -- fixes the stock mapping reopening the wrong repo after a cd, without
+        -- losing toggleterm's bordered lazygit UI (snacks renders borderless).
+        ["<Leader>gg"] = { lazygit_here, desc = "Lazygit (current repo)" },
+        ["<Leader>tl"] = { lazygit_here, desc = "Lazygit (current repo)" },
         -- Append @buffer to the prompt window instead of submitting immediately.
         -- opencode.nvim submits unless the prompt ends with a trailing space.
         ["<Leader>O+"] = {
