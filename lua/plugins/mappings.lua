@@ -75,20 +75,20 @@ return {
         ["<Leader>gitt"] = { "<cmd>GHToggleThread<cr>", desc = "GH Thread Toggle" },
         ["<Leader>gil"] = { "<cmd>LTPanel<cr>", desc = "GH Toggle Panel" },
         ["<Leader>z"] = { "<cmd>Telescope zoxide list<cr>", desc = "Zoxide" },
-        -- Open lazygit in the current file's repo (see `lazygit_here` above):
-        -- fixes the stock mapping reopening the wrong repo after a cd, without
-        -- losing toggleterm's bordered lazygit UI (snacks renders borderless).
-        ["<Leader>gg"] = { lazygit_here, desc = "Lazygit (current repo)" },
-        ["<Leader>tl"] = { lazygit_here, desc = "Lazygit (current repo)" },
-        -- Append @buffer to the prompt window instead of submitting immediately.
-        -- opencode.nvim submits unless the prompt ends with a trailing space.
-        ["<Leader>O+"] = {
-          function() require("opencode").prompt "@buffer " end,
-          desc = "Add buffer to prompt",
-        },
+        -- OpenCode (astrocommunity's opencode-nvim mappings target an older API).
+        -- opencode.nvim `main` sends a prompt straight to the session, so
+        -- "add to prompt" opens Ask pre-filled with the context instead.
+        ["<Leader>O+"] = { function() require("opencode").ask "@buffer " end, desc = "Ask with buffer" },
+        -- No v2 equivalent: v1 TUI commands (new session, scroll messages).
+        -- New sessions: <Leader>ON opens another OpenCode pane.
+        ["<Leader>On"] = false,
+        ["<S-C-u>"] = false,
+        ["<S-C-d>"] = false,
+        -- <Leader>Ot / <C-.> / <Leader>ON (tmux pane) are set in polish.lua.
       },
       v = {
         ["p"] = { '"_dP', desc = "Paste without copy" },
+        ["<Leader>O+"] = { function() require("opencode").ask "@this " end, desc = "Ask with selection" },
       },
     },
   },

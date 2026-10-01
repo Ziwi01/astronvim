@@ -174,10 +174,18 @@ Leader is `Space`.
 
 ### AI / OpenCode
 
-| Key          | Action                                          |
-| ------------ | ----------------------------------------------- |
-| `<C-.>`      | Toggle the OpenCode terminal (normal/terminal)  |
-| `<Leader>O+` | Append `@buffer` to the OpenCode prompt         |
+Needs OpenCode v2 (opencode.nvim tracks `main`). Prompts go to the most recently
+updated OpenCode session for Neovim's working directory.
+
+| Key          | Action                                                     |
+| ------------ | ---------------------------------------------------------- |
+| `<C-.>`      | Toggle the OpenCode tmux pane (normal/terminal)            |
+| `<Leader>Ot` | Toggle the OpenCode tmux pane                              |
+| `<Leader>ON` | Open another OpenCode pane in this directory               |
+| `<Leader>Oa` | Ask about the cursor position / selection                  |
+| `<Leader>O+` | Ask, pre-filled with `@buffer` (normal) or `@this` (visual) |
+| `<Leader>Oe` | Explain the code under the cursor                          |
+| `<Leader>Os` | Select a prompt or OpenCode command                        |
 
 ### Git
 
@@ -210,7 +218,8 @@ Grouped under `<Leader>gi`:
 - Treats `zsh` files with Bash Treesitter highlighting; forces `Jenkinsfile` to `groovy`.
 - On WSL, routes the system clipboard through `win32yank.exe` (avoids OSC 52 leakage from TUI
   apps like OpenCode running in the built-in terminal).
-- Configures the OpenCode server to launch inside a right-hand Snacks terminal split.
+- Runs OpenCode in a tmux pane (so ccmux can track it), or in a right-hand Snacks terminal
+  outside tmux. Opens one automatically when no OpenCode service is running.
 
 ## Customizing
 
