@@ -6,7 +6,7 @@ require("lazy").setup({
     opts = { -- AstroNvim options must be set here with the `import` key
       mapleader = " ", -- This ensures the leader key must be configured before Lazy is set up
       maplocalleader = ",", -- This ensures the localleader key must be configured before Lazy is set up
-      icons_enabled = true, -- Set to false to disable icons (if no Nerd Font is available)
+      icons_enabled = vim.env.PROVEASIO_NERD_FONTS ~= "0", -- Set PROVEASIO_NERD_FONTS=0 when no Nerd Font is available
       pin_plugins = nil, -- Default will pin plugins when tracking `version` of AstroNvim, set to true/false to override
       update_notifications = true, -- Enable/disable notification about running `:Lazy update` twice to update pinned plugins
     },
