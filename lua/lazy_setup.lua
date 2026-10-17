@@ -16,7 +16,13 @@ require("lazy").setup({
 } --[[@as LazySpec]], {
   -- Configure any other `lazy.nvim` configuration options here
   install = { colorscheme = { "astrodark", "habamax" } },
-  ui = { backdrop = 100 },
+  ui = {
+    backdrop = 100,
+    -- Plain icons when PROVEASIO_NERD_FONTS=0 (see lua/no_nerd_fonts.lua)
+    icons = require("no_nerd_fonts").enabled
+        and require("no_nerd_fonts").icons(require("lazy.core.config").defaults.ui.icons, require("no_nerd_fonts").lazy)
+      or nil,
+  },
   performance = {
     rtp = {
       -- disable some rtp plugins, add more to your liking
