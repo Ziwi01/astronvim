@@ -1,5 +1,6 @@
 return {
-  "dlyongemallo/diffview.nvim",
+  "dlyongemallo/diffview-plus.nvim",
+  name = "diffview.nvim",
   event = "User AstroGitFile",
   cmd = { "DiffviewOpen" },
   opts = {
