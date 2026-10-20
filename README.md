@@ -149,6 +149,10 @@ Adds a CodeDiff "directory compare" workflow driven from the tree:
 
 - Mason ensures `lua-language-server`, `stylua`, `debugpy`, and `tree-sitter-cli` are installed.
 
+### Markdown preview (`mdkite.lua`)
+
+- **mdkite.nvim** — live browser preview with Mermaid, KaTeX and scroll sync (`:MdKite`, `<Leader>Mp` toggle, `<Leader>Mr` refresh).
+
 ### Additional plugins (`user.lua`)
 
 - **Copilot** enabled for `yaml` and `yaml.ansible` filetypes.
