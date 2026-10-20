@@ -85,6 +85,7 @@ return {
   -- goto Preview
   {
     "rmagatti/goto-preview", -- Edit preview in a floating windows. (`gpd`)
+    dependencies = { "rmagatti/logger.nvim" },
     config = function()
       require("goto-preview").setup {
         width = 120, -- Width of the floating window

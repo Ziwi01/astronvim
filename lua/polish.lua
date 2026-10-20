@@ -24,10 +24,6 @@ vim.api.nvim_create_autocmd("BufReadPost", {
   end,
 })
 
--- Use the bash Treesitter parser for zsh files (there is no dedicated zsh parser).
--- `vim.treesitter.language.register` maps the `zsh` filetype to the `bash` language,
--- so highlighting resolves automatically without a per-buffer FileType autocmd.
-pcall(vim.treesitter.language.register, "bash", "zsh")
 vim.api.nvim_create_autocmd("BufRead", {
   -- Force `Jenkinsfile` to groovy filetype.
   pattern = { "Jenkinsfile" },
