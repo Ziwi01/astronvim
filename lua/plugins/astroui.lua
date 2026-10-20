@@ -8,5 +8,11 @@ return {
   opts = {
     -- change colorscheme
     colorscheme = "astrodark",
+    -- Group icons used in user.lua (Nerd Font v3, Material Design set)
+    icons = {
+      GitHub = "󰊤",
+      Markdown = "󰍔",
+      Table = "󰓫",
+    },
   },
 }

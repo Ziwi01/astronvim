@@ -122,7 +122,7 @@ Imported in `lua/community.lua`. Grouped by purpose:
   (see keybindings below).
 - **vim-fugitive** (`:G <git command>`), **lazygit.nvim** (`<Leader>gg`), **gv.vim** (git
   graph), **vim-signify** (line-level git status), **diffchar.vim** / **vim-dirdiff**
-  (precise + directory diffs).
+  (precise + directory diffs; diffchar get/put pair on `<Leader>gDg` / `<Leader>gDp`).
 
 ### File tree (`neo-tree.lua`)
 
@@ -157,12 +157,16 @@ Adds a CodeDiff "directory compare" workflow driven from the tree:
 
 - **Copilot** enabled for `yaml` and `yaml.ansible` filetypes.
 - **bullets.vim**, **mkdx**, **markdown-plus.nvim**, **vim-table-mode** — Markdown/list authoring.
+  mkdx maps live under `<Leader>M` (Markdown group, shared with mdkite), table-mode under
+  `<Leader>T`. bullets.vim's `<leader>x` checkbox toggle is dropped (use `<Leader>Mt`).
 - **fzf** + **fzf.vim** — fuzzy finding.
 - **vim-better-whitespace** — trims trailing whitespace (blacklisted for many UI filetypes).
 - **lsp_signature.nvim** — signature help while typing.
 - **goto-preview** — preview definitions/implementations in floating windows (`gp*`).
 - **vimux** — run commands in a TMUX split.
-- **ferret** — project search/replace (`:Ack` / `<Leader>a`, `:Acks` / `<Leader>r`).
+- **ferret** — project search/replace, in the Search/Replace group: `<Leader>sa` `:Ack`,
+  `<Leader>sA` ack word under cursor, `<Leader>sl` `:Lack`, `<Leader>sr` `:Acks`.
+- **treesj** toggle is on `<Leader>J` (astrocommunity's `<Leader>m` clashes with multiple-cursors).
 
 ## Key bindings reference
 
@@ -200,14 +204,14 @@ updated OpenCode session for Neovim's working directory.
 
 ### gh.nvim (GitHub)
 
-Grouped under `<Leader>gi`:
+Grouped under `<Leader>G` (Github commands):
 
-- **Pull Requests** `<Leader>gip*`: open, close, details, expand/collapse, refresh, pop-out, open-to.
-- **Commits** `<Leader>gic*`: open-to, close, expand/collapse, pop-out.
-- **Issues** `<Leader>giip`: preview issue.
-- **Reviews** `<Leader>gir*`: begin, submit, close, delete, expand/collapse.
-- **Threads** `<Leader>git*`: create, next, toggle.
-- `<Leader>gil`: toggle the litee panel.
+- **Pull Requests** `<Leader>Gp*`: open, close, details, expand/collapse, refresh, pop-out, open-to.
+- **Commits** `<Leader>Gc*`: open-to, close, expand/collapse, pop-out.
+- **Issues** `<Leader>Gip`: preview issue.
+- **Reviews** `<Leader>Gr*`: begin, submit, close, delete, expand/collapse.
+- **Threads** `<Leader>Gt*`: create, next, toggle.
+- `<Leader>Gl`: toggle the litee panel.
 
 ### Neo-Tree diff workflow
 
