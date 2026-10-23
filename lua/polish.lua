@@ -96,20 +96,61 @@ end
 
 ---Open a new OpenCode TUI in a tmux pane rooted at Neovim's CWD, so you can
 ---run several agents side by side in the SAME repo (ccmux tracks each pane).
-local function open_opencode_pane()
-  local cmd = opencode_bin()
+---@param session? { id: string, dir: string } reopen this session in its directory instead
+local function open_opencode_pane(session)
+  local cwd = session and session.dir or opencode_cwd()
+  local argv = { opencode_bin() }
+  if session then vim.list_extend(argv, { session.dir, "--session", session.id }) end
   -- Not inside tmux: fall back to a Neovim terminal, which needs $TMUX and
   -- $TMUX_PANE stripped to avoid broken OSC 52 clipboard sequences.
   if vim.env.TMUX == nil then
-    require("snacks.terminal").open("env -u TMUX -u TMUX_PANE " .. cmd, {
-      cwd = opencode_cwd(),
+    require("snacks.terminal").open(vim.list_extend({ "env", "-u", "TMUX", "-u", "TMUX_PANE" }, argv), {
+      cwd = cwd,
       win = { position = "right", enter = false },
     })
     return
   end
   -- Horizontal tmux split rooted at the current project (or the launch dir if
   -- that would be $HOME). `-d` keeps focus in Neovim.
-  vim.fn.system { "tmux", "split-window", "-h", "-l", "40%", "-d", "-c", opencode_cwd(), cmd }
+  vim.fn.system(vim.list_extend({ "tmux", "split-window", "-h", "-l", "40%", "-d", "-c", cwd }, argv))
+end
+
+---Browse OpenCode sessions of every directory with `ocs` (deployed by
+---Proveasio) in a floating terminal, then open the picked one in a new pane.
+local function browse_opencode_sessions()
+  if vim.fn.executable "ocs" == 0 then
+    vim.notify("ocs not found on PATH", vim.log.levels.ERROR)
+    return
+  end
+  local out = vim.fn.tempname()
+  local width = math.floor(vim.o.columns * 0.9)
+  local height = math.floor(vim.o.lines * 0.9)
+  local buf = vim.api.nvim_create_buf(false, true)
+  local win = vim.api.nvim_open_win(buf, true, {
+    relative = "editor",
+    width = width,
+    height = height,
+    col = math.floor((vim.o.columns - width) / 2),
+    row = math.floor((vim.o.lines - height) / 2),
+    style = "minimal",
+    border = "none",
+  })
+  -- fzf draws on the tty, so only the "<id>\t<dir>" result lands in `out`.
+  vim.fn.jobstart({ "sh", "-c", 'ocs --print > "$1"', "ocs", out }, {
+    term = true,
+    on_exit = function(_, code)
+      vim.schedule(function()
+        if vim.api.nvim_win_is_valid(win) then vim.api.nvim_win_close(win, true) end
+        if vim.api.nvim_buf_is_valid(buf) then vim.api.nvim_buf_delete(buf, { force = true }) end
+        local ok, lines = pcall(vim.fn.readfile, out)
+        vim.fn.delete(out)
+        if code ~= 0 or not ok or not lines[1] or lines[1] == "" then return end
+        local id, dir = unpack(vim.split(lines[1], "\t", { plain = true }))
+        open_opencode_pane { id = id, dir = dir }
+      end)
+    end,
+  })
+  vim.cmd.startinsert()
 end
 
 ---Toggle the opencode pane's visibility WITHOUT killing it (the same
@@ -144,7 +185,7 @@ end
 vim.g.opencode_opts = {
   server = {
     -- Called only when no OpenCode service is running: the first TUI starts it.
-    start = open_opencode_pane,
+    start = function() open_opencode_pane() end,
   },
   events = {
     -- opencode runs in its own tmux pane, so permissions are answered there.
@@ -162,7 +203,10 @@ vim.keymap.set({ "n", "t" }, "<C-.>", opencode_toggle, { desc = "Toggle OpenCode
 vim.keymap.set("n", "<Leader>Ot", opencode_toggle, { desc = "Toggle OpenCode pane" })
 
 -- Open an additional OpenCode TUI in THIS repo (parallel agents).
-vim.keymap.set("n", "<Leader>ON", open_opencode_pane, { desc = "New OpenCode pane (this repo)" })
+vim.keymap.set("n", "<Leader>ON", function() open_opencode_pane() end, { desc = "New OpenCode pane (this repo)" })
+
+-- Pick an OpenCode session from any directory and open it in a new pane.
+vim.keymap.set("n", "<Leader>OS", browse_opencode_sessions, { desc = "Browse OpenCode sessions (ocs)" })
 
 -- Attach LSP for Azure Pipelines for YAML files in .azuredevops directory
 -- vim.api.nvim_create_autocmd("BufRead", {
