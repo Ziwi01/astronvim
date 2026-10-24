@@ -94,8 +94,27 @@ local function opencode_panes()
   return list
 end
 
+---Create an empty session for `dir` on the running OpenCode service.
+---A fresh TUI only persists its session on the first message, so until then
+---opencode.nvim finds nothing to prompt. Returns nil if there's no service.
+---@param dir string
+---@return string? session_id
+local function create_opencode_session(dir)
+  local ok, reg = pcall(function() return require("opencode.server.discovery").registration() end)
+  if not ok or not reg then return nil end
+  local cmd = { "curl", "-sS", "--fail", "--max-time", "2", "-X", "POST", "-H", "Content-Type: application/json" }
+  if reg.password and reg.password ~= "" then vim.list_extend(cmd, { "--user", "opencode:" .. reg.password }) end
+  vim.list_extend(cmd, { "-d", vim.json.encode { location = { directory = dir } }, reg.url:gsub("/$", "") .. "/api/session" })
+  local res = vim.system(cmd, { text = true }):wait()
+  if res.code ~= 0 then return nil end
+  local decoded, body = pcall(vim.json.decode, res.stdout)
+  return decoded and type(body) == "table" and type(body.data) == "table" and body.data.id or nil
+end
+
 ---Open a new OpenCode TUI in a tmux pane rooted at Neovim's CWD, so you can
 ---run several agents side by side in the SAME repo (ccmux tracks each pane).
+---Without `session`, the pane opens on a pre-created session so `ask`/`prompt`
+---can target it before you type anything in the TUI.
 ---@param session? { id: string, dir: string } reopen this session in its directory instead
 local function open_opencode_pane(session)
   local cwd = session and session.dir or opencode_cwd()
@@ -112,6 +131,10 @@ local function open_opencode_pane(session)
   end
   -- Horizontal tmux split rooted at the current project (or the launch dir if
   -- that would be $HOME). `-d` keeps focus in Neovim.
+  if not session then
+    local session_id = create_opencode_session(cwd)
+    if session_id then vim.list_extend(argv, { "--session", session_id }) end
+  end
   vim.fn.system(vim.list_extend({ "tmux", "split-window", "-h", "-l", "40%", "-d", "-c", cwd }, argv))
 end
 
