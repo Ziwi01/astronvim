@@ -30,6 +30,15 @@ vim.api.nvim_create_autocmd("BufRead", {
   command = "set ft=groovy",
 })
 
+-- Feed zoxide like the shell's `cd` hook: Neo-tree root changes (bind_to_cwd),
+-- :cd, the zoxide picker and the rooter all fire DirChanged.
+if vim.fn.executable "zoxide" == 1 then
+  vim.api.nvim_create_autocmd("DirChanged", {
+    desc = "Add the new working directory to zoxide",
+    callback = function() vim.system { "zoxide", "add", "--", vim.v.event.cwd } end,
+  })
+end
+
 -- Use win32yank for the system clipboard on WSL so Neovim's own yanks and any
 -- OSC 52 consumed from :terminal children land on the Windows clipboard
 -- (instead of a non-existent X11 clipboard via the auto-detected xclip).
